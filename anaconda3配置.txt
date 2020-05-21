@@ -1,0 +1,67 @@
+anaconda3
+1.安装：
+注意版本区别
+Anaconda3-5.2.0-Linux-x86_64.sh  为python3.6.5
+
+2.更换国内源：
+在～目录下新建.condarc
+上交
+channels:
+  - https://mirrors.sjtug.sjtu.edu.cn/anaconda/pkgs/main/
+  - https://mirrors.sjtug.sjtu.edu.cn/anaconda/pkgs/free/
+  - https://mirrors.sjtug.sjtu.edu.cn/anaconda/cloud/conda-forge/
+ssl_verify: true
+channels:
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/
+ssl_verify: true
+
+channels:
+  - https://mirrors.ustc.edu.cn/anaconda/pkgs/main/
+  - https://mirrors.ustc.edu.cn/anaconda/pkgs/free/
+  - https://mirrors.ustc.edu.cn/anaconda/cloud/conda-forge/
+ssl_verify: true
+
+3.新建环境
+conda create -n tf21py36 python=3.6
+source activate tf21py36
+source deactivate
+conda install tensorflow-gpu=2.1.0
+optirun python
+import tensorflow as tf
+tf.test.is_gpu_available()  
+tf.config.list_physical_devices('GPU')
+[PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+
+4.jupyter notebook
+安装anaconda之后就已经安装了jupyter notebook，只需在环境中调用jupyter notebook即可
+jupyter notebook --generate-config
+#c.NotebookApp.notebook_dir = '/media/xiayule/_dde_data/pythonproject' 修改改行
+
+5.jupyter notebook制定虚拟环境
+conda activate tf21py36
+conda install ipykernel
+sudo mkdir /usr/local/share/jupyter
+sudo chmod 777 /usr/local/share/jupyter/
+python -m ipykernel install --name tf21py36
+pip install opencv-python
+
+6.修改pip源为国内源
+cd
+mkdir .pip
+cd .pip
+vim pip.conf
+添加内容
+[global]
+#timeout = 6000
+index-url = http://mirrors.aliyun.com/pypi/simple/
+trusted-host = mirrors.aliyun.com
+
+其他源
+清华：https://pypi.tuna.tsinghua.edu.cn/simple
+    中国科技大学 https://pypi.mirrors.ustc.edu.cn/simple/
+    华中理工大学：http://pypi.hustunique.com/
+    山东理工大学：http://pypi.sdutlinux.org/
+    豆瓣：http://pypi.douban.com/simple/

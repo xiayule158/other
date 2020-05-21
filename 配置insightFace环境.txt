@@ -1,0 +1,23 @@
+1.创建虚拟目录
+conda create -n mx9py2 python=2.7 -y
+source activate mx9py2
+
+2.安装cudatoolkit
+conda install cudatoolkit=9.0 -y
+
+3.安装mxnet-cu9
+pip install mxnet-cu90 --trusted-host mirrors.aliyun.com
+Successfully installed chardet-3.0.4 graphviz-0.8.4 idna-2.9 mxnet-cu90-1.6.0 numpy-1.16.6 requests-2.23.0 urllib3-1.25.9
+
+保证scipy版本为1.2：pip install scipy==1.2
+
+4.安装其他依赖包
+pip install networkx==2.2
+pip install PyWavelets==1.0.0
+pip install six
+pip install scipy==1.2 
+pip install scikit-learn 
+pip install opencv-python 
+pip install scikit-image 
+pip install easydict
+pip install numpy==1.14.2

@@ -1,0 +1,18 @@
+1.创建虚拟环境
+conda create -n open-mmlab python=3.7 -y
+source activate open-mmlab
+2.安装cuda10.1
+conda install cudatoolkit=10.1 -y
+
+3.安装torch和torchvision
+从https://download.pytorch.org/whl/cu101/torch_stable.html下载和python对应的gpu版本
+pip install torch-1.5.0+cu101-cp37-cp37m-linux_x86_64.whl 
+pip install torchvision==0.6.0 和 Pillow==7.0.0对应
+
+4.测试是否可用
+optirun python
+import torch
+import torchvision
+torch.cuda.is_available()  --->True
+torch.cuda.device_count()  --->1  gpu的个数
+torch.cuda.get_device_name(0)  ---> gpu 0 的名字：'GeForce MX250'

@@ -1,0 +1,11 @@
+sudo apt install heirloom-mailx
+sudo ln -s /usr/bin/s-nail /usr/bin/mail
+
+sudo editor /etc/s-nail.rc
+set from=15614387340@163.com
+set smtp=smtp.163.com
+set smtp-auth-user=15614387340@163.com
+set smtp-auth-password=KWZHVNEOZOSQJJRS
+set smtp-auth=login
+
+echo "测试邮件" | mail -s "邮件主题" 2419196400@qq.com

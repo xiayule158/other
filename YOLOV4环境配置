@@ -1,0 +1,56 @@
+YoloV4 官方源码编译环境搭建
+
+1.cmake安装
+从官网下载对应版本：https://cmake.org/download/  cmake-3.17.2-Linux-x86_64.sh
+chmod +x cmake-3.17.2-Linux-x86_64.sh
+sudo ./cmake-3.17.2-Linux-x86_64.sh --prefix=/usr/local --exclude-subdir
+执行cmake --version-- 返回 cmake version 3.17.2 说明安装成功
+cmake 的执行目录 /usr/local/bin
+
+2.安装cudnn for cuda 10.0（需先安装上nvidia-driver、cunda-toolkit10.0）
+从nvidia官网下载cudnn7.6.4 for cuda10.0   https://developer.nvidia.com/rdp/cudnn-archive
+cudnn-10.0-linux-x64-v7.6.4.38.tgz
+解压缩 tar -xzvf cudnn-10.0-linux-x64-v7.6.4.38.tgz
+复制以下的文件到 CUDA Toolkit 的安装目录（/usr/local/cuda-10.0）, 并改变文件的权限.
+sudo cp cuda/include/cudnn.h /usr/local/cuda-10.0/include
+sudo cp cuda/include/cudnn_version.h /usr/local/cuda-10.0/include  (该文件可能没有，跳过复制)
+sudo cp cuda/lib64/libcudnn* /usr/local/cuda-10.0/lib64
+sudo chmod a+r /usr/local/cuda-10.0/include/cudnn.h /usr/local/cuda-10.0/lib64/libcudnn*
+
+3.安装openCV3.4.8
+从opencv官网下载安装包opencv-3.4.8.8.zip  opencv.org/releases/
+解压缩 tar -xzvf opencv-3.4.8.8.zip
+安装编译所需的依赖包：
+sudo apt-get install build-essential
+sudo apt-get install libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
+sudo apt-get install python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev
+sudo apt-get install libtiff5-dev libdc1394-22-dev
+sudo apt-get install libjasper-dev (没装上 repo里不存在)
+在opencv-3.4.8 目录下新建build文件夹（作为编译的目录）
+执行cmake-gui 选择源码和build目录，点击Configure 和Generate，生成Makefile文件
+终端 build目录执行
+make -j8 (多线程编译，注意散热，这里的数字8根据自己计算机cpu核心的个数自行调整,cpu将全速运转)
+编译完成之后执行
+sudo make install
+sudo ldconfig
+测试是否完成
+python2
+import cv2
+注：GPU with CC >= 3.0 (指的是算力为3.0 Compute capability MX250为6.1)
+
+4.编译项目
+# cd到darknet目录下
+如果要使用GPU和opencv 需要先修改 Makefile文件中
+GPU=1  （需要先安装Cuda）
+OPENCV=1
+然后再执行编译命令：
+make 或者 make -j8
+./dacknet 出现 usage: ./darknet <function> 说明编译成功
+
+5.运行
+cd到darknet目录下
+将下载的yolov4.weights放到cfg目录下
+./darknet detect cfg/yolov4.cfg yolov4.weights data/dog.jpg
+./darknet detect cfg/yolov4.cfg yolov4.weights data/personanddog.jpg
+
+在目录下生成predictions.jpg，即为预测的结果

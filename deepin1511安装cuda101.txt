@@ -1,0 +1,40 @@
+1.用U盘安装系统
+2.切换bumblebee方案
+3.sudo init 3 进入文本页面
+4.卸载NVIDIA驱动：sudo apt autoremove nvidia-*
+5.安装闭源驱动NVIDIA-Linux-x86_64-435.21.run
+6.复制缺失的文件
+sudo find / -name libGL.so.1
+sudo cp /usr/lib/i386-linux-gnu/libGL.so.1 /usr/lib/i386-linux-gnu/nvidia/libGL.so.1
+sudo mkdir /usr/lib/x86_64-linux-gnu/nvidia
+sudo cp /usr/lib/x86_64-linux-gnu/libGL.so.1 /usr/lib/x86_64-linux-gnu/nvidia/libGL.so.1
+sudo mkdir /usr/lib/nvidia
+sudo cp /usr/lib/libGL.so.1 /usr/lib/nvidia/libGL.so.1
+7.安装cudatoolkit
+mkdir -p ~/opt/cuda10.1
+sudo chmod 777 ~/* -R
+
+sudo bash cuda_10.1.243_418.87.00_linux.run --silent --toolkit --toolkitpath=$HOME/opt/cuda10.1 --defaultroot=$HOME/opt/cuda10.1 --samples --samplespath=$HOME/ --no-opengl-libs
+
+8.
+sudo ln -s ~/opt/cuda10.1 /usr/local/  设置软链接来调用nvcc -V
+
+9.vim .bashrc
+CUDA_HOME=/usr/local/cuda10.1
+export PATH=$PATH:$CUDA_HOME/bin/
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CUDA_HOME/lib64
+配置环境
+source .bashrc
+
+10.验证cuda
+cd ~/NVIDIA_CUDA-10.1_Samples/1_Utilities/deviceQuery
+sudo apt-get install g++
+make
+./deviceQuery
+11.安装cudnn
+tar zxvf cudnn-10.1-linux-x64-v7.6.5.32.tgz -C ./
+sudo cp cuda/include/cudnn.h /usr/local/cuda/include/ 
+sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64/ 
+sudo chmod 777 /usr/local/cuda/include/cudnn.h 
+sudo chmod 777 /usr/local/cuda/lib64/libcudnn*
+

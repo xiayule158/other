@@ -1,0 +1,7 @@
+YoloV4 anaconda环境搭建
+conda create -n yolov4 python=3.6
+conda activate yolov4
+conda install cmake
+conda install cudatoolkit=10.0
+conda install cudnn
+conda install opencv
